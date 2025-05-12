@@ -1,0 +1,136 @@
+.details-container {
+    display: grid;
+    grid-template-columns: 3fr 1fr; /* Đảm bảo đúng tỉ lệ 3/1 */
+    gap: 10px;
+    padding: 0 15px;
+    max-width: 1200px;
+    margin: auto;
+    align-items: start; /* Căn sidebar lên cùng hàng với nội dung */
+    height: auto;
+}
+
+.article-detail {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    max-height: none;
+}
+
+.thumbnail {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    height: auto;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: justify;
+}
+
+.date {
+    font-size: 14px;
+    color: #777;
+}
+
+.summary {
+    font-size: 16px;
+    text-align: justify;
+    line-height: auto;
+    color: #444;
+}
+
+.article-detail .summary img {  max-width: 100%; /* Ảnh trong bài viết không vượt quá khung */
+    height: auto; /* Giữ nguyên tỉ lệ */  display: block;
+    margin: 10px auto; /* Căn giữa */  border-radius: 5px; /* Bo nhẹ góc */
+}
+
+.content {
+    font-size: 16px;
+    text-align: justify;
+    line-height: 1.8;
+}
+
+.article-link {
+    display: inline-block;
+    font-size: 16px;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.article-link:hover {
+    text-decoration: underline;
+}
+
+/* 📌 Responsive cho tablet */
+@media (max-width: 1024px) {
+    .details-container {
+        grid-template-columns: 2fr 1fr; /* Giảm tỉ lệ ở tablet */
+    }
+    .article-detail {
+        padding: 15px;
+    }
+    .title {
+        font-size: 22px;
+    }
+    .summary, .content {
+        font-size: 15px;
+    }
+}
+
+/* 📌 Responsive cho mobile */
+@media (max-width: 768px) {
+    .details-container {
+        grid-template-columns: 1fr; /* Chuyển về 1 cột */
+    }
+    .thumbnail {
+        max-height: 300px;
+    }
+    .title {
+        font-size: 20px;
+    }
+    .summary, .content {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+}
+
+.entry-crumbs {
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.entry-crumbs a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+}
+
+.entry-crumbs a:hover {
+    text-decoration: underline;
+}
+
+.crumb-topic {
+    margin: 0 5px;
+}
+
+.crumb-title {
+    font-weight: bold;
+    color: #fff;
+}
+
+.highlight {  background-color: rgb(252, 255, 66);
+    font-weight: bold;  padding: 2px;
+    border-radius: 4px;}

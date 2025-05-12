@@ -1,0 +1,65 @@
+.sidebar {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    height: fit-content; /* Không bị kéo dài quá mức */
+    max-width: 100%;
+    overflow: hidden;
+    width: 100%;
+}
+
+/* Responsive widget để tránh tràn trên mobile */
+.tradingview-widget-container {
+    width: 100%;
+    min-height: 350px; /* Điều chỉnh theo nhu cầu */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tradingview-widget-container__widget {
+    width: 100% !important;
+    height: auto !important;
+}
+
+/* Khi màn hình lớn hơn 1025px, sidebar sẽ cố định */
+@media (min-width: 1025px) {
+    .sidebar {
+        position: sticky;
+        top: 20px;
+        height: fit-content;
+        max-width: 300px; /* Giữ sidebar không quá rộng */
+    }
+}
+
+/* Responsive cho tablet và mobile */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 100%;
+        padding: 20px;
+        font-size: 14px;
+        position: relative;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        order: 2; /* Đưa xuống dưới bài viết */
+        width: 100%;
+        padding: 15px;
+        font-size: 14px;
+    }
+    
+    .tradingview-widget-container {
+        min-height: 300px; /* Giảm kích thước trên mobile */
+    }
+}

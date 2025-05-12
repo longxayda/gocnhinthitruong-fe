@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Orbitron:wght@400;700&display=swap');
+
+/* Reset cơ bản */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  opacity: 1;
+}
+
+body, html {
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  min-height: 100vh;
+  font-family: 'Merriweather', serif;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.wrapper {
+  flex: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  transition: opacity 0.5s ease-in-out;
+  padding-top: 10px;
+}
+
+.wrapper.fade {
+  opacity: 0.3;
+}
+
+.wrapper.fade-in {
+  opacity: 1;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+button.btn-outline-light img {
+  border-radius: 2px;
+  object-fit: cover;
+}
+
+.navbar .nav-item{
+  font-weight: bold;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Carousel */
+.carousel-item img {
+  height: 500px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.gallery-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px;
+  width: 50%;
+  min-height: 50vh; /* Chiếm full chiều cao màn hình */
+  margin: 0 auto;
+  text-align: center;
+}
+
+.ticker {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0 0;
+  width: 100%;
+  margin-top: 75px;
+}
+
+/* Footer */
+footer {
+  background-color: #333;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 10px 10px 10px;
+  }
+
+  .carousel-item img {
+    height: 250px;
+  }
+}

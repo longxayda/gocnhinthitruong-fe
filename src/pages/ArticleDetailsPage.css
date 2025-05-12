@@ -1,0 +1,36 @@
+.content-layout {
+    display: grid;
+    grid-template-columns: 1fr; /* Bố cục 3/1 trên desktop */
+    gap: 20px;
+    margin-top: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+}
+
+/* Nội dung chính */
+.content-main {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+}
+
+/* 📌 Responsive cho tablet */
+@media (max-width: 1024px) {
+    .content-layout {
+        grid-template-columns: 1fr; /* Giảm tỉ lệ ở tablet */
+        padding: 15px;
+    }
+}
+
+/* 📌 Responsive cho mobile */
+@media (max-width: 768px) {
+    .content-layout {
+        grid-template-columns: 1fr; /* Chuyển về 1 cột */
+        padding: 10px;
+        gap: 10px;
+    }
+}

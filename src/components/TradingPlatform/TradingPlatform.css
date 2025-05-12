@@ -1,0 +1,48 @@
+.trading-platform {
+    background: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .trading-platform h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .trading-platform ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .platform-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .platform-item:last-child {
+    border-bottom: none;
+  }
+  
+  .platform-item img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  
+  .platform-item span {
+    flex-grow: 1;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .platform-item a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+  }
+  

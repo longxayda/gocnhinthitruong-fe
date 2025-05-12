@@ -1,0 +1,44 @@
+/* Overlay che toàn màn hình khi loading */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #fff; /* Lớp phủ tối */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Luôn trên cùng */
+}
+
+/* Hình loading */
+.loading-image {
+  width: 20%;
+  height: auto;
+  animation: brighten 1.5s infinite alternate;
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+  .loading-image {
+    width: 45%;
+  }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .loading-image {
+    width: 40%;
+  }
+}
+
+/* Hiệu ứng sáng dần */
+@keyframes brighten {
+  from {
+    filter: brightness(30%);
+  }
+  to {
+    filter: brightness(100%);
+  }
+}
