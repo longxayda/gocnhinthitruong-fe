@@ -9,14 +9,15 @@ function TradingViewWidget() {
     container.current.innerHTML = "";
 
     const script = document.createElement("script");
-    script.src = "https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js";
+    script.src =
+      "https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js";
     script.type = "text/javascript";
     script.async = true;
     script.innerHTML = `
       {
         "symbols": [
-          ["BINANCE:BTCUSD|1M"],
           ["OANDA:XAUUSD|1M"],
+          ["BINANCE:BTCUSD|1M"],
           ["FX:EURUSD|1M"],
           ["FX_IDC:JPYUSD|1M"],
           ["BINANCE:ETHUSD|1M"]
@@ -47,9 +48,14 @@ function TradingViewWidget() {
   }, []);
 
   return (
-    <div className="tradingview-widget-container" id={widgetId} ref={container} style={{
-      boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)'
-    }}>
+    <div
+      className="tradingview-widget-container"
+      id={widgetId}
+      ref={container}
+      style={{
+        boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+      }}
+    >
       <div className="tradingview-widget-container__widget"></div>
     </div>
   );

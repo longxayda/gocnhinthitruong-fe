@@ -35,7 +35,9 @@ function Articles({ language }) {
   useEffect(() => {
     const fetchAllArticles = async () => {
       try {
-        const response = await axios.get("https://api.gocnhinthitruong.com/api/articles/tintuc");
+        const response = await axios.get(
+          "https://api.gocnhinthitruong.com/api/articles/tintuc"
+        );
         setAllArticles(response.data);
       } catch (error) {
         console.error("Lỗi tải bài viết tintuc:", error);
@@ -48,9 +50,16 @@ function Articles({ language }) {
   useEffect(() => {
     const fetchLocalArticles = async () => {
       try {
-        const localTopics = ["batdongsan", "phaply", "trading", "antoanhocduong"];
+        const localTopics = [
+          "batdongsan",
+          "phaply",
+          "trading",
+          "antoanhocduong",
+        ];
         const promises = localTopics.map(async (topic) => {
-          const response = await axios.get(`https://api.gocnhinthitruong.com/api/editor/articles/${topic}`);
+          const response = await axios.get(
+            `https://api.gocnhinthitruong.com/api/editor/articles/${topic}`
+          );
           return { topic, data: response.data };
         });
         const results = await Promise.all(promises);
@@ -85,18 +94,22 @@ function Articles({ language }) {
         setArticles(response.data);
         setCurrentPage(0);
       } catch (error) {
-        console.error("Lỗi tải bài viết:", error.response?.data || error.message);
+        console.error(
+          "Lỗi tải bài viết:",
+          error.response?.data || error.message
+        );
       }
     };
     fetchArticles();
   }, [selectedTopic]);
 
-
-
   const articlesPerPage = 16;
   const totalPages = Math.ceil((articles.length - 1) / articlesPerPage);
   const startIndex = currentPage * articlesPerPage + 1;
-  const currentArticles = articles.slice(startIndex, startIndex + articlesPerPage);
+  const currentArticles = articles.slice(
+    startIndex,
+    startIndex + articlesPerPage
+  );
 
   const handleNext = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1));
@@ -116,7 +129,7 @@ function Articles({ language }) {
   const renderPageNumbers = () => {
     const pages = [];
     const maxPagesToShow = 5;
-  
+
     if (totalPages <= maxPagesToShow) {
       for (let i = 0; i < totalPages; i++) {
         pages.push(
@@ -132,7 +145,11 @@ function Articles({ language }) {
     } else {
       if (currentPage > 1) {
         pages.push(
-          <button key={0} onClick={() => handlePageClick(0)} className="page-btn">
+          <button
+            key={0}
+            onClick={() => handlePageClick(0)}
+            className="page-btn"
+          >
             1
           </button>
         );
@@ -140,10 +157,10 @@ function Articles({ language }) {
           pages.push(<span key="start-ellipsis">...</span>);
         }
       }
-  
+
       const start = Math.max(1, currentPage - 1);
       const end = Math.min(totalPages - 2, currentPage + 1);
-  
+
       for (let i = start; i <= end; i++) {
         pages.push(
           <button
@@ -155,11 +172,11 @@ function Articles({ language }) {
           </button>
         );
       }
-  
+
       if (currentPage < totalPages - 2) {
         pages.push(<span key="end-ellipsis">...</span>);
       }
-  
+
       if (currentPage < totalPages - 1) {
         pages.push(
           <button
@@ -172,16 +189,20 @@ function Articles({ language }) {
         );
       }
     }
-  
+
     return pages;
   };
-  
 
   return (
     <div className="articles-wrapper">
       <h1
         className="section-title"
-        style={{ color: "white", textAlign: "center", padding: "20px 0", backgroundColor: "rgb(0, 0, 0)" }}
+        style={{
+          color: "white",
+          textAlign: "center",
+          padding: "20px 0",
+          backgroundColor: "rgb(0, 0, 0)",
+        }}
       >
         🔥TIN NỔI BẬT🔥
       </h1>
@@ -190,7 +211,10 @@ function Articles({ language }) {
       <div className="articles-grid">
         {/* Bài viết lớn cho tintuc từ API gocnhinthitruong */}
         {allArticles.length > 0 && (
-          <div className="grid-item large" onClick={() => handleArticleClick(allArticles[0]?.id)}>
+          <div
+            className="grid-item large"
+            onClick={() => handleArticleClick(allArticles[0]?.id)}
+          >
             <img
               src={allArticles[0]?.thumbnail || ""}
               alt="Thumbnail"
@@ -207,7 +231,11 @@ function Articles({ language }) {
           const topicArticles = localArticles[topic.id] || [];
           return (
             topicArticles.length > 0 && (
-              <div key={index} className="grid-item small" onClick={() => handleArticleClick(topicArticles[0]?.id)}>
+              <div
+                key={index}
+                className="grid-item small"
+                onClick={() => handleArticleClick(topicArticles[0]?.id)}
+              >
                 <img
                   src={topicArticles[0]?.thumbnail || ""}
                   alt={topicArticles[0]?.title || ""}
@@ -227,7 +255,11 @@ function Articles({ language }) {
         <div className="articles-main">
           <h1 className="section-title">Các bài viết liên quan</h1>
           {currentArticles.map((article, index) => (
-            <div key={index} className="article-row" onClick={() => handleArticleClick(article.id)}>
+            <div
+              key={index}
+              className="article-row"
+              onClick={() => handleArticleClick(article.id)}
+            >
               <img
                 src={article.thumbnail}
                 alt={article.title}
@@ -236,15 +268,25 @@ function Articles({ language }) {
               />
               <div className="article-info">
                 <h5 className="article-title">{article.title}</h5>
-                <p className="article-date">{new Date(article.date).toLocaleDateString()}</p>
+                <p className="article-date">
+                  {new Date(article.date).toLocaleDateString()}
+                </p>
               </div>
             </div>
           ))}
           {/* PHÂN TRANG */}
           <div className="pagination-container">
-            {currentPage > 0 && <button onClick={handlePrev} className="page-btn">«</button>}
+            {currentPage > 0 && (
+              <button onClick={handlePrev} className="page-btn">
+                «
+              </button>
+            )}
             {renderPageNumbers()}
-            {currentPage < totalPages - 1 && <button onClick={handleNext} className="page-btn">»</button>}
+            {currentPage < totalPages - 1 && (
+              <button onClick={handleNext} className="page-btn">
+                »
+              </button>
+            )}
           </div>
         </div>
         <div style={{}}>
