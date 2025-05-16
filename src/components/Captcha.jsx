@@ -78,6 +78,12 @@ function Captcha({ children }) {
     fontSize: "1rem",
   };
 
+  const checkboxStyle = {
+    width: "30px",
+    height: "30px",
+    marginRight: "15px",
+  };
+
   return (
     <div
       style={modalStyle}
@@ -102,7 +108,7 @@ function Captcha({ children }) {
               type="checkbox"
               checked={isRobotChecked}
               onChange={(e) => setIsRobotChecked(e.target.checked)}
-              style={{ marginRight: "8px" }}
+              style={checkboxStyle}
               aria-label="Xác minh tôi không phải robot"
             />
             <span>Tôi không phải là robot</span>
@@ -117,22 +123,32 @@ function Captcha({ children }) {
             }}
           >
             <p style={{ fontSize: "0.875rem", marginBottom: "8px" }}>
-              <strong>Tuyên bố miễn trừ trách nhiệm:</strong> Thông tin được
-              cung cấp trên trang web này chỉ nhằm mục đích tham khảo. Chúng tôi
-              không bảo đảm tính chính xác, đầy đủ hoặc kịp thời của các nội
-              dung và sẽ không chịu trách nhiệm đối với bất kỳ tổn thất hoặc
-              thiệt hại nào phát sinh từ việc sử dụng các thông tin này, dù dưới
-              bất kỳ hình thức nào.
+              <strong>
+                <u>Tuyên bố miễn trừ trách nhiệm:</u>
+              </strong>{" "}
+              Thông tin trên trang web này chỉ mang tính chất tham khảo và không
+              cấu thành lời khuyên pháp lý, tài chính, y tế hoặc chuyên môn. Mặc
+              dù chúng tôi nỗ lực đảm bảo độ chính xác và cập nhật, không có cam
+              kết nào về tính đầy đủ, kịp thời hoặc phù hợp của nội dung đối với
+              mục đích cụ thể. Người dùng tự chịu trách nhiệm với mọi quyết định
+              hoặc hành động dựa trên thông tin tại đây. Chúng tôi không chịu
+              trách nhiệm cho bất kỳ tổn thất hay thiệt hại nào phát sinh, dù
+              trực tiếp hay gián tiếp, từ việc sử dụng thông tin trên trang. Vui
+              lòng tham vấn luật sư hoặc chuyên gia phù hợp trước khi đưa ra các
+              quyết định quan trọng. Việc sử dụng trang đồng nghĩa với việc bạn
+              đồng ý với tuyên bố miễn trừ trách nhiệm này.
             </p>
             <label style={{ display: "flex", alignItems: "center" }}>
               <input
                 type="checkbox"
                 checked={isDisclaimerChecked}
                 onChange={(e) => setIsDisclaimerChecked(e.target.checked)}
-                style={{ marginRight: "8px" }}
+                style={checkboxStyle}
                 aria-label="Đồng ý với tuyên bố miễn trừ trách nhiệm"
               />
-              <span>Tôi đồng ý với tuyên bố miễn trừ trách nhiệm</span>
+              <span>
+                <strong>Tôi đồng ý miễn trừ trách nhiệm</strong>
+              </span>
             </label>
           </div>
         </div>
