@@ -94,7 +94,7 @@ function Captcha({ children }) {
             marginBottom: "16px",
           }}
         >
-          Xác minh và Tuyên bố Miễn trừ
+          Xác minh và Tuyên bố Miễn trừ trách nhiệm
         </h2>
         <div style={checkboxContainerStyle}>
           <label style={{ display: "flex", alignItems: "center" }}>
@@ -109,11 +109,20 @@ function Captcha({ children }) {
           </label>
         </div>
         <div style={checkboxContainerStyle}>
-          <div>
+          <div
+            style={{
+              textAlign: "justify",
+              borderTop: "1px solid black",
+              paddingTop: "5%",
+            }}
+          >
             <p style={{ fontSize: "0.875rem", marginBottom: "8px" }}>
-              Tuyên bố miễn trừ trách nhiệm: Trang web này cung cấp thông tin
-              chỉ để tham khảo. Chúng tôi không chịu trách nhiệm về bất kỳ thiệt
-              hại nào phát sinh từ việc sử dụng thông tin này.
+              <strong>Tuyên bố miễn trừ trách nhiệm:</strong> Thông tin được
+              cung cấp trên trang web này chỉ nhằm mục đích tham khảo. Chúng tôi
+              không bảo đảm tính chính xác, đầy đủ hoặc kịp thời của các nội
+              dung và sẽ không chịu trách nhiệm đối với bất kỳ tổn thất hoặc
+              thiệt hại nào phát sinh từ việc sử dụng các thông tin này, dù dưới
+              bất kỳ hình thức nào.
             </p>
             <label style={{ display: "flex", alignItems: "center" }}>
               <input
