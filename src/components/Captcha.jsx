@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-// Component CAPTCHA để xác minh người dùng và hiển thị tuyên bố miễn trừ
+// Component CAPTCHA để hiển thị bảng thông báo và yêu cầu xác minh
 function Captcha({ children }) {
   // Trạng thái cho checkbox CAPTCHA và tuyên bố miễn trừ
   const [isRobotChecked, setIsRobotChecked] = useState(false);
@@ -17,11 +17,16 @@ function Captcha({ children }) {
 
   // Theo dõi thay đổi route để kiểm tra trạng thái CAPTCHA
   useEffect(() => {
-    if (isCaptchaCompleted || isAdminLoginRoute) return;
-    if (!sessionStorage.getItem("captchaCompleted")) {
+    if (isAdminLoginRoute) {
+      setIsCaptchaCompleted(true);
+      return;
+    }
+    if (sessionStorage.getItem("captchaCompleted") === "true") {
+      setIsCaptchaCompleted(true);
+    } else {
       setIsCaptchaCompleted(false);
     }
-  }, [location, isCaptchaCompleted, isAdminLoginRoute]);
+  }, [location, isAdminLoginRoute]);
 
   // Xử lý khi người dùng nhấn nút xác nhận
   const handleSubmit = () => {
@@ -31,11 +36,6 @@ function Captcha({ children }) {
     }
   };
 
-  // Nếu CAPTCHA đã hoàn thành hoặc ở route /admin/login, hiển thị nội dung ứng dụng
-  if (isCaptchaCompleted || isAdminLoginRoute) {
-    return children;
-  }
-
   // CSS inline cho modal và các thành phần
   const modalStyle = {
     position: "fixed",
@@ -44,7 +44,7 @@ function Captcha({ children }) {
     right: 0,
     bottom: 0,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-    display: "flex",
+    display: isCaptchaCompleted || isAdminLoginRoute ? "none" : "flex",
     alignItems: "center",
     justifyContent: "center",
     zIndex: 1000,
@@ -78,63 +78,97 @@ function Captcha({ children }) {
     fontSize: "1rem",
   };
 
+  const checkboxStyle = {
+    width: "30px",
+    height: "30px",
+    marginRight: "15px",
+  };
+
+  const contentWrapperStyle = {
+    pointerEvents: isCaptchaCompleted || isAdminLoginRoute ? "auto" : "none",
+    filter: isCaptchaCompleted || isAdminLoginRoute ? "none" : "blur(2px)",
+  };
+
   return (
-    <div
-      style={modalStyle}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="captcha-title"
-    >
-      <div style={modalContentStyle}>
-        <h2
-          id="captcha-title"
-          style={{
-            fontSize: "1.5rem",
-            fontWeight: "bold",
-            marginBottom: "16px",
-          }}
-        >
-          Xác minh và Tuyên bố Miễn trừ
-        </h2>
-        <div style={checkboxContainerStyle}>
-          <label style={{ display: "flex", alignItems: "center" }}>
-            <input
-              type="checkbox"
-              checked={isRobotChecked}
-              onChange={(e) => setIsRobotChecked(e.target.checked)}
-              style={{ marginRight: "8px" }}
-              aria-label="Xác minh tôi không phải robot"
-            />
-            <span>Tôi không phải là robot</span>
-          </label>
-        </div>
-        <div style={checkboxContainerStyle}>
-          <div>
-            <p style={{ fontSize: "0.875rem", marginBottom: "8px" }}>
-              Tuyên bố miễn trừ trách nhiệm: Trang web này cung cấp thông tin
-              chỉ để tham khảo. Chúng tôi không chịu trách nhiệm về bất kỳ thiệt
-              hại nào phát sinh từ việc sử dụng thông tin này.
-            </p>
+    <div>
+      {/* Nội dung trang con luôn được render */}
+      <div style={contentWrapperStyle}>{children}</div>
+
+      {/* Modal CAPTCHA hiển thị nếu chưa hoàn thành */}
+      <div
+        style={modalStyle}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="captcha-title"
+      >
+        <div style={modalContentStyle}>
+          <h2
+            id="captcha-title"
+            style={{
+              fontSize: "1.5rem",
+              fontWeight: "bold",
+              marginBottom: "16px",
+            }}
+          >
+            Xác minh và Tuyên bố Miễn trừ trách nhiệm
+          </h2>
+          <div style={checkboxContainerStyle}>
             <label style={{ display: "flex", alignItems: "center" }}>
               <input
                 type="checkbox"
-                checked={isDisclaimerChecked}
-                onChange={(e) => setIsDisclaimerChecked(e.target.checked)}
-                style={{ marginRight: "8px" }}
-                aria-label="Đồng ý với tuyên bố miễn trừ trách nhiệm"
+                checked={isRobotChecked}
+                onChange={(e) => setIsRobotChecked(e.target.checked)}
+                style={checkboxStyle}
+                aria-label="Xác minh tôi không phải robot"
               />
-              <span>Tôi đồng ý với tuyên bố miễn trừ trách nhiệm</span>
+              <span>Tôi không phải là robot</span>
             </label>
           </div>
+          <div style={checkboxContainerStyle}>
+            <div
+              style={{
+                textAlign: "justify",
+                borderTop: "1px solid black",
+                paddingTop: "5%",
+              }}
+            >
+              <p style={{ fontSize: "0.875rem", marginBottom: "8px" }}>
+                <strong>
+                  <u>Tuyên bố miễn trừ trách nhiệm:</u>
+                </strong>{" "}
+                Thông tin trên trang web này chỉ mang tính chất tham khảo và không
+                cấu thành lời khuyên pháp lý, tài chính, y tế hoặc chuyên môn. Mặc
+                dù chúng tôi nỗ lực đảm bảo độ chính xác và cập nhật, không có cam
+                kết nào về tính đầy đủ, kịp thời hoặc phù hợp của nội dung đối với
+                mục đích cụ thể. Người dùng tự chịu trách nhiệm với mọi quyết định
+                hoặc hành động dựa trên thông tin tại đây. Chúng tôi không chịu
+                trách nhiệm cho bất kỳ tổn thất hay thiệt hại nào phát sinh, dù
+                trực tiếp hay gián tiếp, từ việc sử dụng thông tin trên trang. Vui
+                lòng tham vấn luật sư hoặc chuyên gia phù hợp trước khi đưa ra các
+                quyết định quan trọng. Việc sử dụng trang đồng nghĩa với việc bạn
+                đồng ý với tuyên bố miễn trừ trách nhiệm này.
+              </p>
+              <label style={{ display: "flex", alignItems: "center" }}>
+                <input
+                  type="checkbox"
+                  checked={isDisclaimerChecked}
+                  onChange={(e) => setIsDisclaimerChecked(e.target.checked)}
+                  style={checkboxStyle}
+                  aria-label="Đồng ý với tuyên bố miễn trừ trách nhiệm"
+                />
+                <span>Tôi đồng ý với tuyên bố miễn trừ trách nhiệm</span>
+              </label>
+            </div>
+          </div>
+          <button
+            onClick={handleSubmit}
+            disabled={!isRobotChecked || !isDisclaimerChecked}
+            style={buttonStyle}
+            aria-disabled={!isRobotChecked || !isDisclaimerChecked}
+          >
+            Xác nhận
+          </button>
         </div>
-        <button
-          onClick={handleSubmit}
-          disabled={!isRobotChecked || !isDisclaimerChecked}
-          style={buttonStyle}
-          aria-disabled={!isRobotChecked || !isDisclaimerChecked}
-        >
-          Xác nhận
-        </button>
       </div>
     </div>
   );
