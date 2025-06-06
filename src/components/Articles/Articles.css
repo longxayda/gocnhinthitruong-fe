@@ -1,7 +1,8 @@
 /* Tạo khoảng cách với mép màn hình */
 .articles-container,
 .articles-grid {
-  padding: 0 100px; /* Cách 2 mép màn hình 20px */
+  padding: 0 100px;
+  /* Cách 2 mép màn hình 20px */
 }
 
 /* PHẦN TRÊN - GRID 4x2 */
@@ -23,11 +24,13 @@
 .grid-item {
   position: relative;
   overflow: hidden;
-  cursor: pointer; /* Thêm pointer */
+  cursor: pointer;
+  /* Thêm pointer */
 }
 
 .grid-item:hover img {
-  transform: scale(1.1); /* Zoom in nhẹ khi hover */
+  transform: scale(1.1);
+  /* Zoom in nhẹ khi hover */
 }
 
 .grid-item img {
@@ -52,7 +55,8 @@
   color: white;
 }
 
-.overlay h2, .overlay h3 {
+.overlay h2,
+.overlay h3 {
   font-size: 16px;
   font-weight: bold;
   display: -webkit-box;
@@ -67,10 +71,11 @@
 .grid-item h3 {
   margin: 0;
   font-size: 1rem;
+  text-transform: capitalize;
 }
 
 .grid-item small {
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
 
 
@@ -90,7 +95,8 @@
   border-radius: 8px;
   background: #f9f9f9;
   cursor: pointer;
-  overflow: hidden; /* Đảm bảo ảnh không tràn ra ngoài */
+  overflow: hidden;
+  /* Đảm bảo ảnh không tràn ra ngoài */
 }
 
 .article-thumb {
@@ -102,7 +108,8 @@
 }
 
 .article-row:hover .article-thumb {
-  transform: scale(1.1); /* Phóng to nhẹ ảnh */
+  transform: scale(1.1);
+  /* Phóng to nhẹ ảnh */
 }
 
 .article-info {
@@ -132,7 +139,8 @@
 /* SIDEBAR CUỘN ĐƯỢC NHƯNG KHÔNG QUÁ GIỚI HẠN */
 .articles-sidebar {
   background: #f5f5f5;
-  width: 300px; /* Cố định chiều rộng */
+  width: 300px;
+  /* Cố định chiều rộng */
   min-height: 100vh;
   transition: all 0.3s ease-in-out;
   position: relative;
@@ -160,9 +168,11 @@
 
 /* RESPONSIVE CHO TABLET */
 @media (max-width: 1024px) {
+
   .articles-container,
   .articles-grid {
-    padding: 0 15px; /* Giảm khoảng cách mép cho tablet */
+    padding: 0 15px;
+    /* Giảm khoảng cách mép cho tablet */
   }
 
   .articles-grid {
@@ -180,9 +190,11 @@
 
 /* RESPONSIVE CHO MOBILE */
 @media (max-width: 768px) {
+
   .articles-container,
   .articles-grid {
-    padding: 0 10px; /* Giảm khoảng cách mép cho mobile */
+    padding: 0 10px;
+    /* Giảm khoảng cách mép cho mobile */
   }
 
   .articles-grid {
