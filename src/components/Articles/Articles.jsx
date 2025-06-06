@@ -13,17 +13,6 @@ const FeaturedArticleCard = ({ articles = [], handleArticleClick }) => {
   return (
     <div
       className="topic-article-featured"
-      style={{
-        flex: "1 1 320px",
-        maxWidth: 420,
-        minWidth: 260,
-        background: "#fff",
-        overflow: "hidden",
-        cursor: "pointer",
-        display: "flex",
-        flexDirection: "column",
-        boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
-      }}
       onClick={() => handleArticleClick?.(featuredArticle.id)}
     >
       <img
@@ -333,36 +322,14 @@ function Articles({ language }) {
         {/* Navigation Bar */}
         <div
           className="topic-navbar"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            borderBottom: "3px solid #f9c100",
-            background: "#fff",
-            padding: "0 100px",
-            margin: "32px 0 0 0",
-            minHeight: 48,
-          }}
         >
           <div
             className="topic-navbar-title"
-            style={{
-              background: "#f9c100",
-              color: "#000",
-              fontWeight: 700,
-              fontSize: 20,
-              padding: "8px 24px",
-              letterSpacing: 1,
-            }}
           >
             Bài viết
           </div>
           <div
             className="topic-navbar-list"
-            style={{
-              display: "flex",
-              gap: 16,
-            }}
           >
             {[
               { id: "phaply", label: "Pháp lý" },
@@ -399,13 +366,6 @@ function Articles({ language }) {
         {/* Articles Row */}
         <div
           className="topic-articles-row"
-          style={{
-            display: "flex",
-            gap: 32,
-            margin: "24px 0 32px 0",
-            flexWrap: "wrap",
-            padding: '0 100px'
-          }}
         >
           {/* First column: newest/most impressive article */}
           <FeaturedArticleCard articles={articles} handleArticleClick={handleArticleClick} />
@@ -424,27 +384,15 @@ function Articles({ language }) {
               <div
                 key={article.id}
                 className="topic-article-item"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 16,
-                  background: "#fff",
-                  borderRadius: 6,
-                  padding: "10px 14px",
-                  cursor: "pointer",
-                  // boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
-                  transition: "background 0.15s",
-                }}
                 onClick={() => handleArticleClick(article.id)}
               >
                 <img
                   src={article.thumbnail}
                   alt={article.title}
                   style={{
-                    width: 140,
-                    height: 73,
+                    width: 210,
+                    height: 105,
                     objectFit: "cover",
-                    // borderRadius: 6,
                     background: "#eee",
                     flexShrink: 0,
                   }}

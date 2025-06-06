@@ -6,6 +6,7 @@ import "./Details.css";
 
 function Details() {
   const [searchParams] = useSearchParams();
+  const [relatedArticles, setRelatedArticles] = useState([]);
   const highlightText = searchParams.get("highlight");
   const { articleId } = useParams();
   const navigate = useNavigate();
