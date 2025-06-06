@@ -4,6 +4,81 @@ import Sidebar from "../Sidebar/Sidebar";
 import axios from "axios";
 import "./Articles.css";
 
+
+const FeaturedArticleCard = ({ articles = [], handleArticleClick }) => {
+  const featuredArticle = articles[1] || articles[0];
+
+  if (!featuredArticle) return null; // Không có article để render
+
+  return (
+    <div
+      className="topic-article-featured"
+      style={{
+        flex: "1 1 320px",
+        maxWidth: 420,
+        minWidth: 260,
+        background: "#fff",
+        overflow: "hidden",
+        cursor: "pointer",
+        display: "flex",
+        flexDirection: "column",
+        boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+      }}
+      onClick={() => handleArticleClick?.(featuredArticle.id)}
+    >
+      <img
+        src={featuredArticle.thumbnail}
+        alt={featuredArticle.title}
+        style={{
+          width: "100%",
+          height: 220,
+          objectFit: "cover",
+          background: "#eee",
+        }}
+        onError={(e) => (e.target.src = "/images/replace_error.jfif")}
+      />
+      <div style={{ padding: 20 }}>
+        <h3
+          style={{
+            fontSize: 22,
+            fontWeight: 700,
+            margin: "0 0 10px 0",
+            color: "#222",
+          }}
+        >
+          {featuredArticle.title}
+        </h3>
+        <div
+          style={{
+            fontSize: 14,
+            color: "#888",
+            marginBottom: 8,
+          }}
+        >
+          {featuredArticle.date
+            ? new Date(featuredArticle.date).toLocaleDateString()
+            : ""}
+        </div>
+        <div
+          style={{
+            fontSize: 15,
+            color: "#444",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: "-webkit-box",
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: "vertical",
+            minHeight: 60,
+          }}
+        >
+          {featuredArticle.description || ""}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
 function Articles({ language }) {
   const [articles, setArticles] = useState([]);
   const [allArticles, setAllArticles] = useState([]); // Dành cho tintuc từ API gocnhinthitruong
@@ -15,7 +90,8 @@ function Articles({ language }) {
 
   // Lấy topic từ URL
   const queryParams = new URLSearchParams(location.search);
-  const selectedTopic = queryParams.get("topic") || "tintuc"; // Mặc định 'tintuc'
+  const selectedTopic = queryParams.get("topic") || "phaply";
+
 
   const topics = [
     { id: "tintuc", vi: "Tin tức", en: "News" },
@@ -106,7 +182,7 @@ function Articles({ language }) {
   const articlesPerPage = 16;
   const totalPages = Math.ceil((articles.length - 1) / articlesPerPage);
   const startIndex = currentPage * articlesPerPage + 1;
-  const currentArticles = articles.slice(
+  const currentArticles = allArticles.slice(
     startIndex,
     startIndex + articlesPerPage
   );
@@ -192,7 +268,7 @@ function Articles({ language }) {
 
     return pages;
   };
-
+  const featuredArticle = articles[1] || articles[0];
   return (
     <div className="articles-wrapper">
       <h1
@@ -211,7 +287,6 @@ function Articles({ language }) {
   
 
       <div className="articles-grid">
-        {/* Bài viết lớn → đổi sang từ topic 'phaply' */}
         {localArticles["phaply"]?.length > 0 && (
           <div
             className="grid-item large"
@@ -253,11 +328,163 @@ function Articles({ language }) {
         })}
       </div>
 
+      {/* SECTION: Bài viết theo chủ đề */}
+      <div className="topic-section">
+        {/* Navigation Bar */}
+        <div
+          className="topic-navbar"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            borderBottom: "3px solid #f9c100",
+            background: "#fff",
+            padding: "0 100px",
+            margin: "32px 0 0 0",
+            minHeight: 48,
+          }}
+        >
+          <div
+            className="topic-navbar-title"
+            style={{
+              background: "#f9c100",
+              color: "#000",
+              fontWeight: 700,
+              fontSize: 20,
+              padding: "8px 24px",
+              letterSpacing: 1,
+            }}
+          >
+            Bài viết
+          </div>
+          <div
+            className="topic-navbar-list"
+            style={{
+              display: "flex",
+              gap: 16,
+            }}
+          >
+            {[
+              { id: "phaply", label: "Pháp lý" },
+              { id: "batdongsan", label: "Kiến thức BĐS" },
+              { id: "antoanhocduong", label: "An Toàn Học Đường" },
+              { id: "trading", label: "Kỹ Thuật Trading" },
+            ].map((topic) => (
+              <button
+                key={topic.id}
+                onClick={() => {
+                  const params = new URLSearchParams(location.search);
+                  params.set("topic", topic.id);
+                  navigate({ search: params.toString() });
+                }}
+                style={{
+                  background:
+                    selectedTopic === topic.id ? "#fff" : "#fff",
+                  color: selectedTopic === topic.id ? "#111" : "#d4d4d4",
+                  border: "none",
+                  borderRadius: 4,
+                  padding: "8px 18px",
+                  fontWeight: 500,
+                  fontSize: 16,
+                  cursor: "pointer",
+                  transition: "background 0.2s",
+                }}
+              >
+                {topic.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Articles Row */}
+        <div
+          className="topic-articles-row"
+          style={{
+            display: "flex",
+            gap: 32,
+            margin: "24px 0 32px 0",
+            flexWrap: "wrap",
+            padding: '0 100px'
+          }}
+        >
+          {/* First column: newest/most impressive article */}
+          <FeaturedArticleCard articles={articles} handleArticleClick={handleArticleClick} />
+          {/* Second column: list of remaining articles */}
+          <div
+            className="topic-article-list"
+            style={{
+              flex: "2 1 400px",
+              display: "flex",
+              flexDirection: "column",
+              gap: 16,
+              minWidth: 260,
+            }}
+          >
+            {articles[0] && [articles[0], ...articles.slice(2, 7)].map((article) => (
+              <div
+                key={article.id}
+                className="topic-article-item"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 16,
+                  background: "#fff",
+                  borderRadius: 6,
+                  padding: "10px 14px",
+                  cursor: "pointer",
+                  // boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+                  transition: "background 0.15s",
+                }}
+                onClick={() => handleArticleClick(article.id)}
+              >
+                <img
+                  src={article.thumbnail}
+                  alt={article.title}
+                  style={{
+                    width: 140,
+                    height: 73,
+                    objectFit: "cover",
+                    // borderRadius: 6,
+                    background: "#eee",
+                    flexShrink: 0,
+                  }}
+                  onError={(e) => (e.target.src = "/images/replace_error.jfif")}
+                />
+                <div style={{ flex: 1 }}>
+                  <div
+                    style={{
+                      fontWeight: 600,
+                      fontSize: 16,
+                      color: "#222",
+                      marginBottom: 4,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    {article.title}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: "#888",
+                    }}
+                  >
+                    {article.date
+                      ? new Date(article.date).toLocaleDateString()
+                      : ""}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
 
       {/* DANH SÁCH BÀI VIẾT THEO TOPIC */}
       <div className="articles-container" ref={articlesContainerRef}>
         <div className="articles-main">
-          <h1 className="section-title">Các bài viết liên quan</h1>
+          <h3 style={{fontSize: '20px', fontWeight: '700'}} className="section-title">Các bài viết liên quan</h3>
           {currentArticles.map((article, index) => (
             <div
               key={index}

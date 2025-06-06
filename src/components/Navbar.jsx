@@ -23,11 +23,11 @@ function Navbar() {
       bsCollapse.hide();
     }
     setTimeout(() => {
-      const articlesContainer = document.querySelector(".articles-container");
+      const articlesContainer = document.querySelector(".topic-section");
       if (articlesContainer) {
         articlesContainer.scrollIntoView({ behavior: "smooth" });
       }
-    }, 200); // Chờ một chút để trang load trước khi cuộn
+    }, 200);
   };
 
   return (

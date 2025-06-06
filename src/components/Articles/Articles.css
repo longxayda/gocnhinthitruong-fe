@@ -78,8 +78,6 @@
   font-size: 1rem;
 }
 
-
-
 .articles-main {
   display: flex;
   flex-direction: column;
@@ -168,7 +166,6 @@
 
 /* RESPONSIVE CHO TABLET */
 @media (max-width: 1024px) {
-
   .articles-container,
   .articles-grid {
     padding: 0 15px;
@@ -188,9 +185,9 @@
   }
 }
 
+
 /* RESPONSIVE CHO MOBILE */
 @media (max-width: 768px) {
-
   .articles-container,
   .articles-grid {
     padding: 0 10px;
