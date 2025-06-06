@@ -136,17 +136,7 @@ function Captcha({ children }) {
                 <strong>
                   <u>Tuyên bố miễn trừ trách nhiệm:</u>
                 </strong>{" "}
-                Thông tin trên trang web này chỉ mang tính chất tham khảo và không
-                cấu thành lời khuyên pháp lý, tài chính, y tế hoặc chuyên môn. Mặc
-                dù chúng tôi nỗ lực đảm bảo độ chính xác và cập nhật, không có cam
-                kết nào về tính đầy đủ, kịp thời hoặc phù hợp của nội dung đối với
-                mục đích cụ thể. Người dùng tự chịu trách nhiệm với mọi quyết định
-                hoặc hành động dựa trên thông tin tại đây. Chúng tôi không chịu
-                trách nhiệm cho bất kỳ tổn thất hay thiệt hại nào phát sinh, dù
-                trực tiếp hay gián tiếp, từ việc sử dụng thông tin trên trang. Vui
-                lòng tham vấn luật sư hoặc chuyên gia phù hợp trước khi đưa ra các
-                quyết định quan trọng. Việc sử dụng trang đồng nghĩa với việc bạn
-                đồng ý với tuyên bố miễn trừ trách nhiệm này.
+                Thông tin trên trang web này chỉ mang tính tham khảo, không phải lời khuyên pháp lý, tài chính hay chuyên môn. Chúng tôi nỗ lực đảm bảo tính chính xác và cập nhật nhưng không cam kết về tính đầy đủ, kịp thời hoặc phù hợp của nội dung cho mục đích cụ thể. Người dùng chịu trách nhiệm hoàn toàn cho quyết định hoặc hành động dựa trên thông tin này. Chúng tôi không chịu trách nhiệm cho bất kỳ tổn thất hay thiệt hại nào, trực tiếp hoặc gián tiếp, phát sinh từ việc sử dụng thông tin trên trang. Hãy tham vấn luật sư/chuyên gia trước khi quyết định quan trọng. Việc Sử dụng trang web này đồng nghĩa với việc bạn chấp nhận tuyên bố miễn trừ này.
               </p>
               <label style={{ display: "flex", alignItems: "center" }}>
                 <input
