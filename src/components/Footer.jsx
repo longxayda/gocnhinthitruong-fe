@@ -43,7 +43,7 @@ function Footer({ language }) {
                 style={{ textDecoration: "none" }}
                 target="_blank"
               >
-                CÔNG TY LUẬT TNHH JUSTIVA LAW
+                https://justivalaw.com
               </a>
             </strong>{" "}
             <br />

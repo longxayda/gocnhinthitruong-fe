@@ -96,11 +96,18 @@ function AdminAddArticle() {
       alert('Vui lòng điền đầy đủ thông tin!');
       return;
     }
+    if (formData.link === null || formData.link === '') {
+      //choose a random article
+      const randomIndex = Math.floor(Math.random() * articles.length);
+      if (articles.length > 0) {
+        formData.link = articles[randomIndex].link;
+      }
+    }
     try {
       const data = {
         title: formData.title,
         summary: formData.summary,
-        link: formData.link || '',
+        link: formData.link ? formData.link : '/',
         thumbnail: formData.thumbnail
       };
 

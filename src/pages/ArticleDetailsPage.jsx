@@ -10,7 +10,8 @@ import "aos/dist/aos.css";
 import "./ArticleDetailsPage.css";
 
 function ArticleDetailsPage() {
-  const { articleId } = useParams();
+  const { topic, articleId } = useParams();
+  console.log(topic, articleId)
 
   useEffect(() => {
     AOS.init({

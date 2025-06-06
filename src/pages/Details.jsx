@@ -10,6 +10,8 @@ function Details() {
   const { articleId } = useParams();
   const navigate = useNavigate();
   const [article, setArticle] = useState(null);
+  const [correctTopic, setCorrectTopic] = useState('');
+  const [correctArticle, setCorrectArticle] = useState(null);
   const [additionalData, setAdditionalData] = useState(null);
   const [loading, setLoading] = useState(true);
   const topics = [
@@ -20,63 +22,28 @@ function Details() {
     { id: "antoanhocduong", vi: "An toàn học đường" },
   ];
 
-  const highlightContent = (content, keyword) => { 
+  const highlightContent = (content, keyword) => {
     if (!keyword) return content;
     const regex = new RegExp(`(${keyword})`, "i");
-    return content.replace(regex, `<span id="highlighted-text" class="highlight">$1</span>`); 
+    return content.replace(regex, `<span id="highlighted-text" class="highlight">$1</span>`);
   };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       // Fetch từ cả 2 API song song
-  //       const [localResponse, apiResponse] = await Promise.all([
-  //         axios.get(`https://api.gocnhinthitruong.com/api/editor/article/${articleId}`),
-  //         axios.get(`https://api.gocnhinthitruong.com/api/article/${articleId}`)
-  //       ]);
-
-  //       // Kết hợp dữ liệu từ cả 2 nguồn
-  //       const combinedData = {
-  //         ...localResponse.data,
-  //         ...apiResponse.data,
-  //         // Nếu có trường nào cần ưu tiên từ nguồn cụ thể, có thể chỉ định rõ
-  //         thumbnail: localResponse.data.thumbnail || apiResponse.data.thumbnail,
-  //         title: localResponse.data.title || apiResponse.data.title,
-  //         date: localResponse.data.date || apiResponse.data.date,
-  //         summary: localResponse.data.summary || apiResponse.data.summary,
-  //         link: localResponse.data.link || apiResponse.data.link,
-  //         topic: localResponse.data.topic || apiResponse.data.topic
-  //       };
-  //       console.log("---------------- OMBINED DATA", combinedData);
-
-  //       setArticle(combinedData);
-  //       setAdditionalData(apiResponse.data); // Lưu dữ liệu bổ sung nếu cần
-
-  //     } catch (error) {
-  //       console.error("Lỗi tải dữ liệu:", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [articleId]);
   useEffect(() => {
     const fetchData = async () => {
       try {
         console.log("Bắt đầu fetch API local...");
         const localResponse = await axios.get(`https://api.gocnhinthitruong.com/api/editor/article/${articleId}`);
-        console.log("API local response:", localResponse.data);
+        // console.log("API local response:", localResponse.data);
         setArticle(localResponse.data);
       } catch (error) {
         console.error("Lỗi fetch API local:", error.message);
       }
-  
+
       try {
         console.log("Bắt đầu fetch API gocnhinthitruong...");
         const apiResponse = await axios.get(`https://api.gocnhinthitruong.com/api/article/${articleId}`);
-        console.log("API gocnhinthitruong response:", apiResponse.data);
-  
+        // console.log("API gocnhinthitruong response:", apiResponse.data);
+
         setArticle(prevArticle => ({
           ...prevArticle,
           ...apiResponse.data,
@@ -87,18 +54,38 @@ function Details() {
           link: prevArticle?.link || apiResponse.data.link,
           topic: prevArticle?.topic || apiResponse.data.topic
         }));
-  
+
         setAdditionalData(apiResponse.data);
       } catch (error) {
         console.error("Lỗi fetch API gocnhinthitruong:", error.message);
       }
-  
+
       setLoading(false);
     };
-  
+
     fetchData();
   }, [articleId]);
-  
+
+  useEffect(() => {
+    if (article && article.topic) {
+      setCorrectTopic(article.topic);
+    }
+  }, [article])
+
+  useEffect(() => {
+    if (!correctTopic) return;
+    const fetchCorrectArticle = async () => {
+      try {
+        const res = await axios.get(`https://api.gocnhinthitruong.com/api/articles/${correctTopic}/${articleId}`);
+        setCorrectArticle(res.data);
+        console.log("CORRECT ARTICLE RES:", res.data);
+      } catch (error) {
+        console.error("Lỗi fetch Correct topic:", error.message);
+      }
+    }
+    fetchCorrectArticle();
+  }, [correctTopic, articleId])
+
 
   useEffect(() => {
     if (!loading && highlightText) {
@@ -138,8 +125,12 @@ function Details() {
   };
 
   if (loading) return <p className="loading">Đang tải bài viết...</p>;
-  if (!article) return <p className="error">Không tìm thấy bài viết.</p>;
-
+  if (!article || !correctArticle) return <p className="error">Không tìm thấy bài viết.</p>;
+  const finalLink = correctArticle.topic === "phaply"
+    ? "https://justivalaw.com"
+    : correctArticle.link === ""
+      ? "/"
+      : correctArticle.link;
   return (
     <>
       <div className="entry-crumbs" style={{
@@ -147,32 +138,32 @@ function Details() {
         padding: '20px',
       }}>
         <Link to="/" className="crumb-home">Trang chủ</Link>&nbsp;&gt;
-        <Link to={`/?topic=${article.topic}`} className="crumb-topic" onClick={handleNavigateAndScroll(article.topic)}>
-          {getTopicName(article.topic)}
+        <Link to={`/?topic=${correctArticle.topic}`} className="crumb-topic" onClick={handleNavigateAndScroll(correctArticle.topic)}>
+          {getTopicName(correctArticle.topic)}
         </Link>&gt;&nbsp;
-        <span className="crumb-title">{article.title}</span>
+        <span className="crumb-title">{correctArticle.title}</span>
       </div>
       <div className="details-container">
         <div className="article-detail">
           <img
             className="thumbnail"
-            src={article.thumbnail}
-            alt={article.title}
+            src={correctArticle.thumbnail}
+            alt={correctArticle.title}
             onError={(e) => (e.target.src = "/images/replace_error.jfif")}
           />
-          <h1 className="title">{article.title}</h1>
-          <p className="date">🕒 {new Date(article.date).toLocaleDateString("vi-VN")}</p>
-          <p 
-            className="summary" 
-            dangerouslySetInnerHTML={{ 
-              __html: highlightContent(article.summary, highlightText), 
-            }} 
+          <h1 className="title">{correctArticle.title}</h1>
+          <p className="date">🕒 {new Date(correctArticle.date).toLocaleDateString("vi-VN")}</p>
+          <p
+            className="summary"
+            dangerouslySetInnerHTML={{
+              __html: highlightContent(correctArticle.summary, highlightText),
+            }}
           />
-          <a href={article.link} className="article-link" target="_blank" rel="noopener noreferrer">
-            Xem chi tiết: → {article.link}
+          <a href={finalLink} className="article-link" target="_blank" rel="noopener noreferrer">
+            Xem chi tiết: → {finalLink}
           </a>
         </div>
-        <Sidebar/>
+        <Sidebar />
       </div>
     </>
   );
