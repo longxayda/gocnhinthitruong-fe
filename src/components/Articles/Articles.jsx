@@ -208,47 +208,51 @@ function Articles({ language }) {
       </h1>
 
       {/* GRID 4x2 */}
+  
+
       <div className="articles-grid">
-        {/* Bài viết lớn cho tintuc từ API gocnhinthitruong */}
-        {allArticles.length > 0 && (
+        {/* Bài viết lớn → đổi sang từ topic 'phaply' */}
+        {localArticles["phaply"]?.length > 0 && (
           <div
             className="grid-item large"
-            onClick={() => handleArticleClick(allArticles[0]?.id)}
+            onClick={() => handleArticleClick(localArticles["phaply"][0]?.id)}
           >
             <img
-              src={allArticles[0]?.thumbnail || ""}
+              src={localArticles["phaply"][0]?.thumbnail || ""}
               alt="Thumbnail"
               onError={(e) => (e.target.src = "/images/replace_error.jfif")}
             />
             <div className="overlay">
-              <h2>{allArticles[0]?.title || ""}</h2>
+              <h2>{localArticles["phaply"][0]?.title || ""}</h2>
             </div>
           </div>
         )}
 
-        {/* 4 bài viết nhỏ từ localhost */}
-        {topics.slice(1, 5).map((topic, index) => {
-          const topicArticles = localArticles[topic.id] || [];
+        {/* 4 bài viết nhỏ: tintuc, batdongsan, trading, antoanhocduong */}
+        {["batdongsan","antoanhocduong", "trading", "tintuc"].map((topicId, index) => {
+          const topicData =
+            topicId === "tintuc" ? allArticles : localArticles[topicId];
           return (
-            topicArticles.length > 0 && (
+            topicData?.length > 0 && (
               <div
                 key={index}
                 className="grid-item small"
-                onClick={() => handleArticleClick(topicArticles[0]?.id)}
+                onClick={() => handleArticleClick(topicData[0]?.id)}
               >
                 <img
-                  src={topicArticles[0]?.thumbnail || ""}
-                  alt={topicArticles[0]?.title || ""}
+                  src={topicData[0]?.thumbnail || ""}
+                  alt={topicData[0]?.title || ""}
                   onError={(e) => (e.target.src = "/images/replace_error.jfif")}
                 />
                 <div className="overlay">
-                  <h3>{topicArticles[0]?.title || ""}</h3>
+                  <h3>{topicData[0]?.title || ""}</h3>
                 </div>
               </div>
             )
           );
         })}
       </div>
+
 
       {/* DANH SÁCH BÀI VIẾT THEO TOPIC */}
       <div className="articles-container" ref={articlesContainerRef}>

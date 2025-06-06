@@ -12,6 +12,14 @@
   gap: 10px;
 }
 
+/* PHẦN DƯỚI - 3 CỘT TRÁI + 1 CỘT PHẢI */
+.articles-container {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+
 .grid-item {
   position: relative;
   overflow: hidden;
@@ -65,13 +73,7 @@
   font-size: 0.8rem;
 }
 
-/* PHẦN DƯỚI - 3 CỘT TRÁI + 1 CỘT PHẢI */
-.articles-container {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  gap: 20px;
-  margin-top: 20px;
-}
+
 
 .articles-main {
   display: flex;
