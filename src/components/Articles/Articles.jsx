@@ -4,7 +4,6 @@ import Sidebar from "../Sidebar/Sidebar";
 import axios from "axios";
 import "./Articles.css";
 
-
 const FeaturedArticleCard = ({ articles = [], handleArticleClick }) => {
   const featuredArticle = articles[1] || articles[0];
 
@@ -67,7 +66,6 @@ const FeaturedArticleCard = ({ articles = [], handleArticleClick }) => {
   );
 };
 
-
 function Articles({ language }) {
   const [articles, setArticles] = useState([]);
   const [allArticles, setAllArticles] = useState([]); // Dành cho tintuc từ API gocnhinthitruong
@@ -80,7 +78,6 @@ function Articles({ language }) {
   // Lấy topic từ URL
   const queryParams = new URLSearchParams(location.search);
   const selectedTopic = queryParams.get("topic") || "phaply";
-
 
   const topics = [
     { id: "tintuc", vi: "Tin tức", en: "News" },
@@ -273,7 +270,6 @@ function Articles({ language }) {
       </h1>
 
       {/* GRID 4x2 */}
-  
 
       <div className="articles-grid">
         {localArticles["phaply"]?.length > 0 && (
@@ -293,46 +289,42 @@ function Articles({ language }) {
         )}
 
         {/* 4 bài viết nhỏ: tintuc, batdongsan, trading, antoanhocduong */}
-        {["batdongsan","antoanhocduong", "trading", "tintuc"].map((topicId, index) => {
-          const topicData =
-            topicId === "tintuc" ? allArticles : localArticles[topicId];
-          return (
-            topicData?.length > 0 && (
-              <div
-                key={index}
-                className="grid-item small"
-                onClick={() => handleArticleClick(topicData[0]?.id)}
-              >
-                <img
-                  src={topicData[0]?.thumbnail || ""}
-                  alt={topicData[0]?.title || ""}
-                  onError={(e) => (e.target.src = "/images/replace_error.jfif")}
-                />
-                <div className="overlay">
-                  <h3>{topicData[0]?.title || ""}</h3>
+        {["batdongsan", "antoanhocduong", "trading", "tintuc"].map(
+          (topicId, index) => {
+            const topicData =
+              topicId === "tintuc" ? allArticles : localArticles[topicId];
+            return (
+              topicData?.length > 0 && (
+                <div
+                  key={index}
+                  className="grid-item small"
+                  onClick={() => handleArticleClick(topicData[0]?.id)}
+                >
+                  <img
+                    src={topicData[0]?.thumbnail || ""}
+                    alt={topicData[0]?.title || ""}
+                    onError={(e) =>
+                      (e.target.src = "/images/replace_error.jfif")
+                    }
+                  />
+                  <div className="overlay">
+                    <h3>{topicData[0]?.title || ""}</h3>
+                  </div>
                 </div>
-              </div>
-            )
-          );
-        })}
+              )
+            );
+          }
+        )}
       </div>
 
       {/* SECTION: Bài viết theo chủ đề */}
       <div className="topic-section">
         {/* Navigation Bar */}
-        <div
-          className="topic-navbar"
-        >
-          <div
-            className="topic-navbar-title"
-          >
-            Bài viết
-          </div>
-          <div
-            className="topic-navbar-list"
-          >
+        <div className="topic-navbar">
+          <div className="topic-navbar-title">Bài viết liên quan</div>
+          <div className="topic-navbar-list">
             {[
-              { id: "phaply", label: "Pháp lý" },
+              { id: "phaply", label: "Quản trị Doanh nghiệp" },
               { id: "batdongsan", label: "Kiến thức BĐS" },
               { id: "antoanhocduong", label: "An Toàn Học Đường" },
               { id: "trading", label: "Kỹ Thuật Trading" },
@@ -345,8 +337,7 @@ function Articles({ language }) {
                   navigate({ search: params.toString() });
                 }}
                 style={{
-                  background:
-                    selectedTopic === topic.id ? "#fff" : "#fff",
+                  background: selectedTopic === topic.id ? "#fff" : "#fff",
                   color: selectedTopic === topic.id ? "#111" : "#d4d4d4",
                   border: "none",
                   borderRadius: 4,
@@ -364,11 +355,12 @@ function Articles({ language }) {
         </div>
 
         {/* Articles Row */}
-        <div
-          className="topic-articles-row"
-        >
+        <div className="topic-articles-row">
           {/* First column: newest/most impressive article */}
-          <FeaturedArticleCard articles={articles} handleArticleClick={handleArticleClick} />
+          <FeaturedArticleCard
+            articles={articles}
+            handleArticleClick={handleArticleClick}
+          />
           {/* Second column: list of remaining articles */}
           <div
             className="topic-article-list"
@@ -380,59 +372,66 @@ function Articles({ language }) {
               minWidth: 260,
             }}
           >
-            {articles[0] && [articles[0], ...articles.slice(2, 7)].map((article) => (
-              <div
-                key={article.id}
-                className="topic-article-item"
-                onClick={() => handleArticleClick(article.id)}
-              >
-                <img
-                  src={article.thumbnail}
-                  alt={article.title}
-                  style={{
-                    width: 210,
-                    height: 105,
-                    objectFit: "cover",
-                    background: "#eee",
-                    flexShrink: 0,
-                  }}
-                  onError={(e) => (e.target.src = "/images/replace_error.jfif")}
-                />
-                <div style={{ flex: 1 }}>
-                  <div
+            {articles[0] &&
+              [articles[0], ...articles.slice(2, 7)].map((article) => (
+                <div
+                  key={article.id}
+                  className="topic-article-item"
+                  onClick={() => handleArticleClick(article.id)}
+                >
+                  <img
+                    src={article.thumbnail}
+                    alt={article.title}
                     style={{
-                      fontWeight: 600,
-                      fontSize: 16,
-                      color: "#222",
-                      marginBottom: 4,
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
+                      width: 210,
+                      height: 105,
+                      objectFit: "cover",
+                      background: "#eee",
+                      flexShrink: 0,
                     }}
-                  >
-                    {article.title}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 13,
-                      color: "#888",
-                    }}
-                  >
-                    {article.date
-                      ? new Date(article.date).toLocaleDateString()
-                      : ""}
+                    onError={(e) =>
+                      (e.target.src = "/images/replace_error.jfif")
+                    }
+                  />
+                  <div style={{ flex: 1 }}>
+                    <div
+                      style={{
+                        fontWeight: 600,
+                        fontSize: 16,
+                        color: "#222",
+                        marginBottom: 4,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {article.title}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 13,
+                        color: "#888",
+                      }}
+                    >
+                      {article.date
+                        ? new Date(article.date).toLocaleDateString()
+                        : ""}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </div>
 
-
       {/* DANH SÁCH BÀI VIẾT THEO TOPIC */}
       <div className="articles-container" ref={articlesContainerRef}>
         <div className="articles-main">
-          <h3 style={{fontSize: '20px', fontWeight: '700'}} className="section-title">Các bài viết liên quan</h3>
+          <h3
+            style={{ fontSize: "20px", fontWeight: "700" }}
+            className="section-title"
+          >
+            Tin tức thị trường
+          </h3>
           {currentArticles.map((article, index) => (
             <div
               key={index}

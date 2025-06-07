@@ -6,7 +6,7 @@ function Navbar() {
   const topics = [
     { id: "tintuc", vi: "Tin tức" },
     { id: "batdongsan", vi: "Kiến thức BĐS" },
-    { id: "phaply", vi: "Pháp lý" },
+    { id: "phaply", vi: "Quản trị Doanh nghiệp" },
     { id: "trading", vi: "Kỹ thuật Trading" },
     { id: "antoanhocduong", vi: "An toàn học đường" },
   ];
