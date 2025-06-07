@@ -29,6 +29,12 @@ function Details() {
     return content.replace(regex, `<span id="highlighted-text" class="highlight">$1</span>`);
   };
 
+  const handleArticleClick = (articleId) => {
+    if (articleId) {
+      navigate(`/article/${articleId}`);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -86,18 +92,18 @@ function Details() {
 
 
   useEffect(() => {
-  if (!correctTopic) return;
-  const fetchRelatedArticles = async () => {
-    try {
-      const res = await axios.get(`https://api.gocnhinthitruong.com/api/articles/${correctTopic}`);
-      const filtered = res.data.filter((item) => item._id !== articleId);
-      setRelatedArticles(filtered.slice(0, 5)); // giới hạn 5 bài viết
-    } catch (error) {
-      console.error("Lỗi fetch bài viết cùng chủ đề:", error.message);
-    }
-  };
-  fetchRelatedArticles();
-}, [correctTopic, articleId]);
+    if (!correctTopic) return;
+    const fetchRelatedArticles = async () => {
+      try {
+        const res = await axios.get(`https://api.gocnhinthitruong.com/api/articles/${correctTopic}`);
+        const filtered = res.data.filter((item) => item._id !== articleId);
+        setRelatedArticles(filtered.slice(0, 5)); // giới hạn 5 bài viết
+      } catch (error) {
+        console.error("Lỗi fetch bài viết cùng chủ đề:", error.message);
+      }
+    };
+    fetchRelatedArticles();
+  }, [correctTopic, articleId]);
 
   useEffect(() => {
     if (!loading && highlightText) {
@@ -174,6 +180,26 @@ function Details() {
           <a href={finalLink} className="article-link" target="_blank" rel="noopener noreferrer">
             Xem chi tiết: → {finalLink}
           </a>
+          <div className="related-articles">
+            <h2>Xem thêm</h2>
+            <ul>
+              {relatedArticles.map((item) => (
+                <li key={item.id}>
+                  <Link to={`/article/${item.id}`} className="related-articles-item" onClick={() => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}>
+                    <div className="related-img-container">
+                      <img src={item.thumbnail || "/images/replace_error.jfif"} alt={item.title} className="related-thumb" />
+                    </div>
+                    <div className="related-info">
+                      <p className="related-title">{item.title}</p>
+                      <p className="related-date">{new Date(item.date).toLocaleDateString("vi-VN")}</p>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
         <Sidebar />
       </div>

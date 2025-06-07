@@ -1,11 +1,13 @@
 .details-container {
     display: grid;
-    grid-template-columns: 3fr 1fr; /* Đảm bảo đúng tỉ lệ 3/1 */
+    grid-template-columns: 3fr 1fr;
+    /* Đảm bảo đúng tỉ lệ 3/1 */
     gap: 10px;
     padding: 0 15px;
     max-width: 1200px;
     margin: auto;
-    align-items: start; /* Căn sidebar lên cùng hàng với nội dung */
+    align-items: start;
+    /* Căn sidebar lên cùng hàng với nội dung */
     height: auto;
 }
 
@@ -49,9 +51,16 @@
     color: #444;
 }
 
-.article-detail .summary img {  max-width: 100%; /* Ảnh trong bài viết không vượt quá khung */
-    height: auto; /* Giữ nguyên tỉ lệ */  display: block;
-    margin: 10px auto; /* Căn giữa */  border-radius: 5px; /* Bo nhẹ góc */
+.article-detail .summary img {
+    max-width: 100%;
+    /* Ảnh trong bài viết không vượt quá khung */
+    height: auto;
+    /* Giữ nguyên tỉ lệ */
+    display: block;
+    margin: 10px auto;
+    /* Căn giữa */
+    border-radius: 5px;
+    /* Bo nhẹ góc */
 }
 
 .content {
@@ -73,37 +82,179 @@
     text-decoration: underline;
 }
 
+
+
+.related-articles {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.related-articles h2 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    text-align: center;
+    color: #222;
+}
+
+.related-articles ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.related-articles li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    background: white;
+    padding: 10px;
+    border-radius: 6px;
+    transition: background 0.2s;
+    width: 100%;
+    max-width: 800px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+
+}
+
+.related-articles li:hover {
+    background: #eee;
+}
+
+.related-img-container {
+    height: 110px;
+    width: 180px;
+    margin-right: 16px;
+    text-align: center;
+    object-fit: cover;
+}
+.related-thumb {
+    height: 100px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    object-fit: cover;
+}
+
+.related-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.related-title {
+    font-weight: 600;
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 5px;
+    line-height: 1.3;
+    text-decoration: none;
+}
+
+.related-articles-item {
+    text-decoration: none;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    height: 100px;
+    width: auto;
+}
+
+.related-date {
+    font-size: 13px;
+    color: #777;
+}
+
+
+
 /* 📌 Responsive cho tablet */
 @media (max-width: 1024px) {
     .details-container {
-        grid-template-columns: 2fr 1fr; /* Giảm tỉ lệ ở tablet */
+        grid-template-columns: 2fr 1fr;
+        /* Giảm tỉ lệ ở tablet */
     }
+
     .article-detail {
         padding: 15px;
     }
+
     .title {
         font-size: 22px;
     }
-    .summary, .content {
+
+    .summary,
+    .content {
         font-size: 15px;
     }
 }
 
+@media (max-width: 480px) {
+  .related-articles {
+    padding: 15px;
+  }
+
+  .related-title {
+    font-size: 14px;
+  }
+}
+
+
 /* 📌 Responsive cho mobile */
 @media (max-width: 768px) {
     .details-container {
-        grid-template-columns: 1fr; /* Chuyển về 1 cột */
+        grid-template-columns: 1fr;
+        /* Chuyển về 1 cột */
     }
+
     .thumbnail {
         max-height: 300px;
     }
+
     .title {
         font-size: 20px;
     }
-    .summary, .content {
+
+    .summary,
+    .content {
         font-size: 14px;
         line-height: 1.5;
     }
+
+    .related-articles ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .related-articles li {
+        flex-direction: column;
+        align-items: flex-start;
+        max-width: 100%;
+    }
+
+    .related-thumb {
+        width: 100%;
+        height: auto;
+    }
+
+    .related-info {
+        width: 100%;
+    }
+
+    .related-title {
+        font-size: 15px;
+    }
+
+    .related-date {
+        font-size: 12px;
+    }
+
 }
 
 .entry-crumbs {
@@ -131,6 +282,9 @@
     color: #fff;
 }
 
-.highlight {  background-color: rgb(252, 255, 66);
-    font-weight: bold;  padding: 2px;
-    border-radius: 4px;}
+.highlight {
+    background-color: rgb(252, 255, 66);
+    font-weight: bold;
+    padding: 2px;
+    border-radius: 4px;
+}

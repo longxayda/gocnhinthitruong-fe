@@ -254,7 +254,6 @@ function Articles({ language }) {
 
     return pages;
   };
-  const featuredArticle = articles[1] || articles[0];
   return (
     <div className="articles-wrapper">
       <h1
