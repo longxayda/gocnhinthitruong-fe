@@ -66,11 +66,13 @@ const FeaturedArticleCard = ({ articles = [], handleArticleClick }) => {
   );
 };
 
-function Articles({ language }) {
+function Articles({ }) {
   const [articles, setArticles] = useState([]);
-  const [allArticles, setAllArticles] = useState([]); // Dành cho tintuc từ API gocnhinthitruong
+  const [newsArticles, setNewsArticles] = useState([]); // Dành cho tintuc từ API gocnhinthitruong
   const [localArticles, setLocalArticles] = useState({}); // Dành cho 4 topic từ localhost
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);  // phan tictuc
+  const [relatedPage, setRelatedPage] = useState(0);
+
   const articlesContainerRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -78,14 +80,6 @@ function Articles({ language }) {
   // Lấy topic từ URL
   const queryParams = new URLSearchParams(location.search);
   const selectedTopic = queryParams.get("topic") || "phaply";
-
-  const topics = [
-    { id: "tintuc", vi: "Tin tức", en: "News" },
-    { id: "batdongsan", vi: "Kiến thức BĐS", en: "Real Estate Knowledge" },
-    { id: "quantridn", vi: "Quản trị DN", en: "Business Administration" },
-    { id: "trading", vi: "Kỹ thuật Trading", en: "Trading Techniques" },
-    { id: "antoanhocduong", vi: "An toàn học đường", en: "School Safety" },
-  ];
 
   const handleArticleClick = (articleId) => {
     if (articleId) {
@@ -95,17 +89,17 @@ function Articles({ language }) {
 
   // Fetch bài viết tintuc từ API gocnhinthitruong
   useEffect(() => {
-    const fetchAllArticles = async () => {
+    const fetchNewsArticles = async () => {
       try {
         const response = await axios.get(
           "https://api.gocnhinthitruong.com/api/articles/tintuc"
         );
-        setAllArticles(response.data);
+        setNewsArticles(response.data);
       } catch (error) {
         console.error("Lỗi tải bài viết tintuc:", error);
       }
     };
-    fetchAllArticles();
+    fetchNewsArticles();
   }, []);
 
   // Fetch bài viết từ localhost cho 4 topic còn lại
@@ -152,9 +146,9 @@ function Articles({ language }) {
           console.log(`Fetching from: ${apiUrl}`);
           response = await axios.get(apiUrl);
         }
-        console.log("API response:", response.data);
         setArticles(response.data);
         setCurrentPage(0);
+        setRelatedPage(0);
       } catch (error) {
         console.error(
           "Lỗi tải bài viết:",
@@ -165,13 +159,28 @@ function Articles({ language }) {
     fetchArticles();
   }, [selectedTopic]);
 
+  // Tính toán pagination phần topic khác tin tức
+  const relatedArticles = articles[0] ? [articles[0], ...articles.slice(2, 5)] : [];
+  const relatedPerPage = 3;
+  const relatedTotalPages = Math.ceil(relatedArticles.length / relatedPerPage);
+  const relatedStartIndex = relatedPage * relatedPerPage;
+  const relatedCurrentArticles = relatedArticles.slice(
+    relatedStartIndex,
+    relatedStartIndex + relatedPerPage
+  );
+
+
+
+  // Tính toán pagination phần tin tức
   const articlesPerPage = 16;
   const totalPages = Math.ceil((articles.length - 1) / articlesPerPage);
   const startIndex = currentPage * articlesPerPage + 1;
-  const currentArticles = allArticles.slice(
+  const currentArticles = newsArticles.slice(
     startIndex,
     startIndex + articlesPerPage
   );
+
+
 
   const handleNext = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1));
@@ -291,7 +300,7 @@ function Articles({ language }) {
         {["batdongsan", "antoanhocduong", "trading", "tintuc"].map(
           (topicId, index) => {
             const topicData =
-              topicId === "tintuc" ? allArticles : localArticles[topicId];
+              topicId === "tintuc" ? newsArticles : localArticles[topicId];
             return (
               topicData?.length > 0 && (
                 <div
@@ -364,7 +373,7 @@ function Articles({ language }) {
           <div
             className="topic-article-list"
           >
-            {articles[0] &&
+            {/* {articles[0] &&
               [articles[0], ...articles.slice(2, 5)].map((article) => (
                 <div
                   key={article.id}
@@ -411,7 +420,78 @@ function Articles({ language }) {
                     </div>
                   </div>
                 </div>
-              ))}
+              ))} */}
+            {relatedCurrentArticles.map((article) => (
+              <div
+                key={article.id}
+                className="topic-article-item"
+                onClick={() => handleArticleClick(article.id)}
+              >
+                <img
+                  src={article.thumbnail}
+                  alt={article.title}
+                  style={{
+                    width: 210,
+                    height: 105,
+                    objectFit: "cover",
+                    background: "#eee",
+                    flexShrink: 0,
+                  }}
+                  onError={(e) => (e.target.src = "/images/replace_error.jfif")}
+                />
+                <div style={{ flex: 1 }}>
+                  <div
+                    style={{
+                      fontWeight: 600,
+                      fontSize: 16,
+                      color: "#222",
+                      marginBottom: 4,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      textAlign: "justify",
+                    }}
+                  >
+                    {article.title}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: "#888",
+                    }}
+                  >
+                    {article.date ? new Date(article.date).toLocaleDateString() : ""}
+                  </div>
+                </div>
+              </div>
+            ))}
+            {/* Pagination cho cột liên quan */}
+            {relatedTotalPages > 1 && (
+              <div className="pagination-container" style={{ marginTop: 10, display: "flex", gap: 8 }}>
+                <button
+                  disabled={relatedPage === 0}
+                  onClick={() => setRelatedPage((prev) => prev - 1)}
+                  className="page-btn"
+                >
+                  «
+                </button>
+                {Array.from({ length: relatedTotalPages }, (_, index) => (
+                  <button
+                    key={index}
+                    className={`page-btn ${relatedPage === index ? "active" : ""}`}
+                    onClick={() => setRelatedPage(index)}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+                <button
+                  disabled={relatedPage === relatedTotalPages - 1}
+                  onClick={() => setRelatedPage((prev) => prev + 1)}
+                  className="page-btn"
+                >
+                  »
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -425,7 +505,7 @@ function Articles({ language }) {
           >
             Tin tức thị trường
           </h3>
-          {currentArticles.map((article, index) => (
+          {currentArticles.slice(5).map((article, index) => (
             <div
               key={index}
               className="article-row"
