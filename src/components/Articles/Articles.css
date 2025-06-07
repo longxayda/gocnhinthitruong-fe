@@ -197,6 +197,14 @@
   padding: 0 100px;
 }
 
+.topic-article-list {
+  flex: 2 1 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 260px;
+}
+
 .topic-article-featured {
   flex: 1 1 320px;
   max-width: 420px;

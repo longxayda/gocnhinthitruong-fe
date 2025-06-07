@@ -50,7 +50,7 @@ function AddArticle() {
           >
             <option value="tintuc">Tin tức</option>
             <option value="ktbds">Kiến thức BĐS</option>
-            <option value="pl">Pháp lý</option>
+            <option value="pl">Quản trị DN</option>
             <option value="ktt">Kỹ thuật Trading</option>
             <option value="athd">An toàn học đường</option>
           </select>

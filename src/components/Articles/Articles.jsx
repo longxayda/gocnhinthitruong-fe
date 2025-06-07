@@ -82,7 +82,7 @@ function Articles({ language }) {
   const topics = [
     { id: "tintuc", vi: "Tin tức", en: "News" },
     { id: "batdongsan", vi: "Kiến thức BĐS", en: "Real Estate Knowledge" },
-    { id: "phaply", vi: "Pháp lý", en: "Legal" },
+    { id: "quantridn", vi: "Quản trị DN", en: "Business Administration" },
     { id: "trading", vi: "Kỹ thuật Trading", en: "Trading Techniques" },
     { id: "antoanhocduong", vi: "An toàn học đường", en: "School Safety" },
   ];
@@ -364,16 +364,9 @@ function Articles({ language }) {
           {/* Second column: list of remaining articles */}
           <div
             className="topic-article-list"
-            style={{
-              flex: "2 1 400px",
-              display: "flex",
-              flexDirection: "column",
-              gap: 16,
-              minWidth: 260,
-            }}
           >
             {articles[0] &&
-              [articles[0], ...articles.slice(2, 7)].map((article) => (
+              [articles[0], ...articles.slice(2, 5)].map((article) => (
                 <div
                   key={article.id}
                   className="topic-article-item"
@@ -402,6 +395,7 @@ function Articles({ language }) {
                         marginBottom: 4,
                         overflow: "hidden",
                         textOverflow: "ellipsis",
+                        textAlign: 'justify'
                       }}
                     >
                       {article.title}

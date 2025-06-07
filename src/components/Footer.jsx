@@ -48,7 +48,7 @@ function Footer({ language }) {
             </strong>{" "}
             <br />
             <strong>{"Liên hệ"}:</strong> <br />
-            {"Email"}: {"justivalaw@gmail.com"} <br />
+            {"Email"}: {"tuvan@justivalaw.com"} <br />
           </p>
         </div>
       </div>

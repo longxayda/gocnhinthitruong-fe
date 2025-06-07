@@ -18,7 +18,7 @@ function Details() {
   const topics = [
     { id: "tintuc", vi: "Tin tức" },
     { id: "batdongsan", vi: "Kiến thức BĐS" },
-    { id: "phaply", vi: "Pháp lý" },
+    { id: "phaply", vi: "Quản trị DN" },
     { id: "trading", vi: "Kỹ thuật Trading" },
     { id: "antoanhocduong", vi: "An toàn học đường" },
   ];
@@ -34,7 +34,6 @@ function Details() {
       try {
         console.log("Bắt đầu fetch API local...");
         const localResponse = await axios.get(`https://api.gocnhinthitruong.com/api/editor/article/${articleId}`);
-        // console.log("API local response:", localResponse.data);
         setArticle(localResponse.data);
       } catch (error) {
         console.error("Lỗi fetch API local:", error.message);
@@ -43,7 +42,6 @@ function Details() {
       try {
         console.log("Bắt đầu fetch API gocnhinthitruong...");
         const apiResponse = await axios.get(`https://api.gocnhinthitruong.com/api/article/${articleId}`);
-        // console.log("API gocnhinthitruong response:", apiResponse.data);
 
         setArticle(prevArticle => ({
           ...prevArticle,
@@ -60,7 +58,6 @@ function Details() {
       } catch (error) {
         console.error("Lỗi fetch API gocnhinthitruong:", error.message);
       }
-
       setLoading(false);
     };
 
@@ -87,6 +84,20 @@ function Details() {
     fetchCorrectArticle();
   }, [correctTopic, articleId])
 
+
+  useEffect(() => {
+  if (!correctTopic) return;
+  const fetchRelatedArticles = async () => {
+    try {
+      const res = await axios.get(`https://api.gocnhinthitruong.com/api/articles/${correctTopic}`);
+      const filtered = res.data.filter((item) => item._id !== articleId);
+      setRelatedArticles(filtered.slice(0, 5)); // giới hạn 5 bài viết
+    } catch (error) {
+      console.error("Lỗi fetch bài viết cùng chủ đề:", error.message);
+    }
+  };
+  fetchRelatedArticles();
+}, [correctTopic, articleId]);
 
   useEffect(() => {
     if (!loading && highlightText) {

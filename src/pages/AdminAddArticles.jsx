@@ -225,7 +225,7 @@ function AdminAddArticle() {
     ? [{ value: 'tintuc', label: 'Tin tức' }] 
     : [
         { value: 'batdongsan', label: 'Kiến thức BĐS' },
-        { value: 'phaply', label: 'Pháp lý' },
+        { value: 'phaply', label: 'Quản trị DN' },
         { value: 'trading', label: 'Kỹ thuật Trading' },
         { value: 'antoanhocduong', label: 'An toàn học đường' }
       ];
